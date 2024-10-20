@@ -5,6 +5,11 @@ import com.buffet.kafka.core.ConsumerGroup;
 import com.buffet.kafka.core.Producer;
 import com.buffet.kafka.domain.BuffetEvent;
 import com.buffet.kafka.domain.EventType;
+import com.buffet.kafka.protocol.ApiKey;
+import com.buffet.kafka.protocol.ProtocolGateway;
+import com.buffet.kafka.protocol.Request;
+import com.buffet.kafka.protocol.RequestHeader;
+import com.buffet.kafka.protocol.Response;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
@@ -13,6 +18,26 @@ public class Main {
 
         String topic = "buffet-events";
         broker.createTopic(topic, 3);
+
+        ProtocolGateway protocolGateway = new ProtocolGateway(broker);
+
+        Request versionsRequest = new Request(new RequestHeader(
+            (short) ApiKey.API_VERSIONS.id(),
+            (short) 4,
+            1001,
+            42
+        ));
+        Response versionsResponse = protocolGateway.handle(versionsRequest.serialize());
+        System.out.println("[PROTOCOL] " + versionsResponse);
+
+        Request partitionsRequest = new Request(new RequestHeader(
+            (short) ApiKey.DESCRIBE_TOPIC_PARTITIONS.id(),
+            (short) 0,
+            1002,
+            42
+        ));
+        Response partitionsResponse = protocolGateway.handle(partitionsRequest.serialize());
+        System.out.println("[PROTOCOL] " + partitionsResponse);
 
         ConsumerGroup<BuffetEvent> kitchenGroup = new ConsumerGroup<>(
                 "kitchen-group",

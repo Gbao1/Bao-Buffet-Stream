@@ -7,6 +7,7 @@ Bao Buffet Stream is a pure Java, Kafka-like event system that simulates buffet 
 - Topic + partition model
 - Producer with key-based partition routing
 - Consumer groups with independent committed offsets
+- Nafka-inspired protocol flow: request header parsing, API-key dispatch, and binary response serialization
 - Buffet event flow: entry, plate pickup, restock, payment
 
 ## Tech
