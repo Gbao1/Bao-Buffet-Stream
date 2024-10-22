@@ -42,7 +42,7 @@ public final class ApiFactory {
         ResponseHeader header = new ResponseHeader(request.getHeader().getCorrelationId());
         ResponseBody body = new ResponseBody();
 
-        // We keep this intentionally minimal: just advertise supported APIs like Nafka's early implementation phase.
+        // Keep this intentionally minimal by advertising only currently supported APIs.
         body.addApi(new ResponseApiBody((short) ApiKey.API_VERSIONS.id(), (short) 0, (short) 4));
         body.addApi(new ResponseApiBody((short) ApiKey.DESCRIBE_TOPIC_PARTITIONS.id(), (short) 0, (short) 0));
 
